@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,8 +13,12 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import info.androidhive.volleyexamples.dbhelper.DatabaseHandler;
 import info.androidhive.volleyexamples.listners.CommonListioner;
 import info.androidhive.volleyexamples.listners.PermissionListioner;
+import info.androidhive.volleyexamples.models.Contact;
 import info.androidhive.volleyexamples.utils.PermissionUtil;
 import info.androidhive.volleyexamples.utils.Util;
 import info.androidhive.volleyexamples.webapi.GetWebservice;
@@ -122,4 +127,28 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		}
 	};
+
+	public void dbUse(){
+		DatabaseHandler db = new DatabaseHandler(this);
+
+		/**
+		 * CRUD Operations
+		 * */
+		// Inserting Contacts
+		Log.d("Insert: ", "Inserting ..");
+		db.addContact(new Contact("Ravi", "9100000000"));
+		db.addContact(new Contact("Srinivas", "9199999999"));
+		db.addContact(new Contact("Tommy", "9522222222"));
+		db.addContact(new Contact("Karthik", "9533333333"));
+
+		// Reading all contacts
+		Log.d("Reading: ", "Reading all contacts..");
+		List<Contact> contacts = db.getAllContacts();
+
+		for (Contact cn : contacts) {
+			String log = "Id: " + cn.getID() + " ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
+			// Writing Contacts to log
+			Log.d("Name: ", log);
+		}
+	}
 }
